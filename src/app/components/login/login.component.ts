@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -7,19 +8,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  type:string = 'password';
+  type: string = 'password';
   isText: boolean = false;
   eyeIcon: string = 'fa-eye-slash';
+  loginForm: FormGroup;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
 
   togglePasswordVisibility() {
     this.isText = !this.isText;
-    this.isText?  this.eyeIcon = 'fa-eye' : this.eyeIcon = 'fa-eye-slash';
+    this.isText ? this.eyeIcon = 'fa-eye' : this.eyeIcon = 'fa-eye-slash';
     this.isText ? this.type = 'text' : this.type = 'password';
 
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
+      const formData = this.loginForm.value;
+      console.log('Login Data:', formData);
+    }
+    else {
+      console.log('Form is invalid');
+      this.validateForm(this.loginForm);
+    }
+  }
+
+  private validateForm(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      if (control instanceof FormGroup) {
+        control.markAsDirty({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateForm(control);
+        // control.markAsTouched();
+      }
+    });
   }
 }
