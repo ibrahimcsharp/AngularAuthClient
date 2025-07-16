@@ -125,7 +125,6 @@
       }
     }
   },
-  "defaultProject": "AngularAuthClient",
   "cli": {
     "analytics": "4c429679-94fb-4ce8-82ec-bfe1e5c37454"
   }
