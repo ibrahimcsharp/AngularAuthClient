@@ -23,7 +23,7 @@
 
                             <div class="form-group pt-3">
                                 <div class="input-field"
-                                    [class.error]="loginForm.controls['username'].dirty &&  loginForm.hasError('required', 'username')">
+                                    [class.error]="loginForm.controls['password'].dirty &&  loginForm.hasError('required', 'password')">
                                     <span class="fa fa-lock p-2"></span>
                                     <input [type]="type" id="password" formControlName="password" class="form-control"
                                         placeholder="Password" required>
@@ -44,7 +44,7 @@
                             <div class="form-inline fr mt-4">
                                 <a id="forget" routerLink="/forgot-password" class="font-weight-bold">Forgot Password?</a>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" [disabled]="loginForm.invalid"
+                            <button type="submit" class="btn btn-primary btn-block mt-4 w-100" 
                                 (click)="onSubmit()">Login</button>
                             <div class="text-center pt-4 text-muted">
                                 Don't have an account? <a id="forget" routerLink="/signup"> Register</a>

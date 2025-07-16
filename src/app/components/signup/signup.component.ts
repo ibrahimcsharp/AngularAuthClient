@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import ValidateForm from 'src/app/helpers/validateform';
 
 @Component({
   selector: 'app-signup',
@@ -19,8 +20,10 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
      this.signUpForm = this.fb.group({
-          email: ['', Validators.required],
+          firstName: ['', Validators.required],
+          lastName: ['', Validators.required],
           username: ['', Validators.required],
+          email: ['', Validators.required],
           password: ['', Validators.required]
         });
   }
@@ -31,4 +34,15 @@ export class SignupComponent implements OnInit {
     this.isText ? this.type = 'text' : this.type = 'password';
 
   }
+
+  onSubmit() {
+    if (this.signUpForm.valid) {
+      const formData = this.signUpForm.value;
+      console.log('Sign Up Data:', formData);
+    } else {
+      console.log('Form is invalid');
+      ValidateForm.validateForm(this.signUpForm);
+    }
+  }
+  
 }

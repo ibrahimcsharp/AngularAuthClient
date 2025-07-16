@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import ValidateForm from 'src/app/helpers/validateform';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -38,19 +41,9 @@ export class LoginComponent implements OnInit {
     }
     else {
       console.log('Form is invalid');
-      this.validateForm(this.loginForm);
+      ValidateForm.validateForm(this.loginForm);
     }
   }
 
-  private validateForm(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      if (control instanceof FormGroup) {
-        control.markAsDirty({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        this.validateForm(control);
-        // control.markAsTouched();
-      }
-    });
-  }
+  
 }
