@@ -37,13 +37,21 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
-      console.log('Login Data:', formData);
+      this.authService.login(formData).subscribe({
+        next: (res) => {
+          alert(res.message);
+          console.log('Login successful', res);
+        },
+        error: (error) => {
+          alert(error?.error.message || 'Login failed');
+          console.error('Login failed', error);
+        }
+      });
     }
     else {
-      console.log('Form is invalid');
       ValidateForm.validateForm(this.loginForm);
     }
   }
 
-  
+
 }
