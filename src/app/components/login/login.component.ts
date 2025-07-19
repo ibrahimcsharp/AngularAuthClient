@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -39,12 +42,24 @@ export class LoginComponent implements OnInit {
       const formData = this.loginForm.value;
       this.authService.login(formData).subscribe({
         next: (res) => {
-          alert(res.message);
-          console.log('Login successful', res);
+          //alert(res.message);
+          Swal.fire({
+            title: 'Success',
+            text: res.message,
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+          this.authService.storeToken(res.token);
+          this.loginForm.reset();
+          this.router.navigate(['dashboard']);
         },
         error: (error) => {
-          alert(error?.error.message || 'Login failed');
-          console.error('Login failed', error);
+          Swal.fire({
+            title: 'Error',
+            text: error?.error.message || 'Login failed',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
         }
       });
     }

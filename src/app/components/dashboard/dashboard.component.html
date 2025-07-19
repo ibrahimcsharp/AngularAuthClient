@@ -1,0 +1,6 @@
+<h1>HELLO ANGULAR</h1>
+<button class="btn btn-danger" (click)="logout()">Logout</button>
+<ul *ngFor="let user of users">
+    <li>{{ user.firstName }}</li>
+    <li *ngIf="users.length === 0">No items found</li>
+</ul>
