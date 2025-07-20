@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import ValidateForm from 'src/app/helpers/validateform';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private userStore: UserStoreService
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +52,11 @@ export class LoginComponent implements OnInit {
             confirmButtonText: 'OK'
           });
           this.authService.storeToken(res.token);
+
+          let tokenPayload = this.authService.decodeToken();
+          this.userStore.setFullNameForStore(tokenPayload.name);
+          this.userStore.setRoleForStore(tokenPayload.role);
+
           this.loginForm.reset();
           this.router.navigate(['dashboard']);
         },
