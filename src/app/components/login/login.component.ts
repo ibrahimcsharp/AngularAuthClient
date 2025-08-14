@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
             confirmButtonText: 'OK'
           });
           this.authService.storeToken(res.token);
+          this.authService.storeRefreshToken(res.refreshToken);
 
           let tokenPayload = this.authService.decodeToken();
           this.userStore.setFullNameForStore(tokenPayload.name);
