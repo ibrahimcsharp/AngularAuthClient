@@ -25,6 +25,7 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.getAllUsers();
+    debugger
 
     this.userStore.getFullNameFromStore().subscribe(res => {
       let fullNameFromToken = this.authService.getfullNameFromToken();
